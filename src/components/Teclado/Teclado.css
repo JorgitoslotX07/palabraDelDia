@@ -1,0 +1,46 @@
+/* .keyboard {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-gap: 6px;
+  max-width: 600px;
+}
+
+.key {
+  padding: 1rem;
+  background-color: #e5e7eb;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+}
+.key:active {
+  background-color: #d1d5db;
+}
+.key.wide {
+  grid-column: span 2;
+ } 
+*/
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 600px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.key {
+  padding: 1rem;
+  background-color: #e5e7eb;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  min-width: 36px;
+}
