@@ -5,7 +5,7 @@ import './App.css'
 
 export const App:FC = ():ReactElement => {
   const [focusedInput, setFocusedInput] = useState<number | null>(null);
-  const [inputValues, setInputValues] = useState<string>("");
+  // const [inputValues, setInputValues] = useState<string>("");
 
 
   const manejarFocus = (index: number) => {
@@ -16,8 +16,8 @@ export const App:FC = ():ReactElement => {
   return (
     <>
       <div className='grid'>
-        <TotalLineasPalabras numCeldas={5} numLineas={6} onFocus={manejarFocus} inputValue={inputValues} setInputValues={setInputValues}/>
-        <Teclado focusedInput={focusedInput} setInputValues={setInputValues}/>
+        <TotalLineasPalabras numCeldas={5} numLineas={6} onFocus={manejarFocus}/>
+        <Teclado focusedInput={focusedInput}/>
       </div>
     </>
   )
