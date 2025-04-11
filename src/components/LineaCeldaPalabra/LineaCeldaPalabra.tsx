@@ -7,13 +7,9 @@ export const LineaCeldaPalabra:FC<LineaCeldaPalabraProps> = ({inputs, onFocus, o
     
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
     const handleChange = (input: string, value: string, index: number) => {
-
         onChange(input, value)
-        console.log(inputs[index])
-
-        if (index < numCeldas - 1) {
+        if (value != "" && index < numCeldas - 1) {
             inputRefs.current[index + 1]?.focus();
-            // console.log(inputRefs.current)
             onFocus(index + 1);
         }
     };
@@ -27,16 +23,7 @@ export const LineaCeldaPalabra:FC<LineaCeldaPalabraProps> = ({inputs, onFocus, o
 
     return (
         <>
-            {/* {[...Array(numCeldas)].map((_, i) => (
-                <CeldaLetra
-                    ref={(el) => inputRefs.current[i] = el}
-                    key={String(itera) + String((i + 1))}
-                    index={i}
-                    onChange={handleChange}
-                    onBackspace={handleBackspace}
-                    onFocus={onFocus}
-                />
-            ))} */
+            {
                 Object.entries(inputs).map(([name, value], i) => (
                     <CeldaLetra
                         key={name}

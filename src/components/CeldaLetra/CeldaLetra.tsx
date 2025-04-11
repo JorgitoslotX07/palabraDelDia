@@ -9,16 +9,27 @@ export const CeldaLetra:FC<CeldaLetraProps> = ({ref, name, value, index, onChang
         ref(inputRef.current);
     }, [ref]);
 
-    function inputLetter(e: React.ChangeEvent<HTMLInputElement>) {
-        const val = e.target.value.toUpperCase();
-        // Validar si es una sola letra A-Z o Ñ
+     useEffect(() => {
+        veriValue(value)
+    }, [value]);
+
+    function veriValue(value: string) {
+        const val = value.toUpperCase();
         if (/^[A-ZÑ]$/.test(val)) {
             onChange(name,val, index);
-        } else {
-            // Borra el valor si no es válido
+        } 
+        // else if (val == "") {
+        //     onBackspace(index);
+        // }
+        else {
             onChange(name, "", index);
         }
     }
+
+    function inputLetter(e: React.ChangeEvent<HTMLInputElement>) {
+        veriValue(e.target.value)
+    }
+        
 
 
     function deffLetter(e: React.KeyboardEvent<HTMLInputElement>) {

@@ -3,12 +3,14 @@ import {Teclado} from './components/Teclado/Teclado';
 import './App.css'
 import { TotalLineasPalabras } from './components/TotalLineasPalabras/TotalLineasPalabras';
 import { InputsState } from './utils/InputsState';
-import {getRowFromKey} from './utils/util';
+import {getRowFromKey, getCelFromKey} from './utils/util';
+import ErrorBoundary from './errors/ErrorBoundary';
 
 
 
 export const App:FC = ():ReactElement => {
   const initialInputs: InputsState[] = []
+  
 
   for (let index = 0; index < 6; index++) {
     initialInputs.push(
@@ -19,7 +21,7 @@ export const App:FC = ():ReactElement => {
     )
   }
 
-
+  const [rowActual] = useState<number>(0); // , setRowActual
   const [inputs, setInputs] = useState<InputsState[]>(initialInputs);
   const [focusedInput, setFocusedInput] = useState<number | null>(null);
   const [activeInput, setActiveInput] = useState<string | null>("input0/0");
@@ -28,17 +30,17 @@ export const App:FC = ():ReactElement => {
 
   const manejarFocus = (index: number) => {
     setFocusedInput(index);
-    setActiveInput("input0/" +  String(index))
-    // console.log(index)
+    setActiveInput("input" + rowActual + "/" +  String(index))
   };
 
   const updateInputValue = (inputKey: string, newValue: string) => {
     const rowIndex:number = getRowFromKey(inputKey)
     setInputs((prevInputs) => {
       const updatedInputs = [...prevInputs]; 
+      const valueToSet = newValue === '⌫' ? '' : newValue;
       updatedInputs[rowIndex] = {
         ...updatedInputs[rowIndex], 
-        [inputKey]: newValue, 
+        [inputKey]: valueToSet, 
       };
       return updatedInputs; 
     });
@@ -46,21 +48,17 @@ export const App:FC = ():ReactElement => {
 
   const handleKeyPress = (key: string) => {
     if (!activeInput) return;
-
-    setInputs((prev) => {
-      const current = prev[activeInput]; // Aquí ahora accedemos al valor correctamente
-      return {
-        ...prev,
-        [activeInput]: key === '⌫' ? current.slice(0, -1) : current + key,
-      };
-    });
+    updateInputValue(activeInput, key)
+    manejarFocus(getCelFromKey(activeInput))
   };
 
   return (
     <>
       <div className='grid'>
-        <TotalLineasPalabras inputs={inputs} onFocus={manejarFocus} onChange={updateInputValue}/>
-        <Teclado focusedInput={focusedInput} onKeyPress={handleKeyPress}/>
+        <ErrorBoundary>
+          <TotalLineasPalabras inputs={inputs} onFocus={manejarFocus} onChange={updateInputValue}/>
+          <Teclado focusedInput={focusedInput} onKeyPress={handleKeyPress}/>
+        </ErrorBoundary>
       </div>
     </>
   )

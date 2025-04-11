@@ -6,14 +6,11 @@ export const TotalLineasPalabras:FC<TotalLineasPalabrasProps> = ({inputs, onFocu
 
   return (
     <>
-        {/* {repeticionModulo(inputs, LineaCeldaPalabra, onFocus)} */}
         {
           inputs.map((e, i) => (
             <LineaCeldaPalabra key={i} inputs={e} onFocus={onFocus} onChange={onChange}/>
           ))
         }
-
-        
     </>
   )
 }
