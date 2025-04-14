@@ -6,4 +6,6 @@ export interface CeldaLetraProps {
     onChange: (input: string, value: string, index: number) => void;
     onBackspace: (index: number) => void;
     onFocus: (index: number) => void;
+    onEnter: () => void;
+
 }

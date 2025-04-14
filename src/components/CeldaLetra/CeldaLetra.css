@@ -23,3 +23,19 @@
   background: transparent;
   caret-color: black;
 }
+
+.verde {
+  background-color: green !important;
+}
+
+.amarillo {
+  background-color: yellow !important;
+}
+
+.gris {
+  background-color: gray !important;
+}
+
+.cellDisabled {
+  color: white;
+}

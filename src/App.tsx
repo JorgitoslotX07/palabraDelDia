@@ -21,17 +21,32 @@ export const App:FC = ():ReactElement => {
     )
   }
 
-  const [rowActual] = useState<number>(0); // , setRowActual
+  const [rowActual, setRowActual] = useState<number>(0); 
   const [inputs, setInputs] = useState<InputsState[]>(initialInputs);
   const [focusedInput, setFocusedInput] = useState<number | null>(null);
   const [activeInput, setActiveInput] = useState<string | null>("input0/0");
   // const [inputValues, setInputValues] = useState<string>("");
+  function getRowActual() {
+    return rowActual;
+  }
 
+  const inputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>[] = [];
 
   const manejarFocus = (index: number) => {
     setFocusedInput(index);
     setActiveInput("input" + rowActual + "/" +  String(index))
   };
+
+  const manejarFocusSupri = (index: number) => {
+    if (index > 0) {
+      inputRefs[rowActual].current[index - 1]?.focus();
+    } else {
+      inputRefs[rowActual].current[index]?.focus();
+    }
+  };
+
+
+
 
   const updateInputValue = (inputKey: string, newValue: string) => {
     const rowIndex:number = getRowFromKey(inputKey)
@@ -48,18 +63,28 @@ export const App:FC = ():ReactElement => {
 
   const handleKeyPress = (key: string) => {
     if (!activeInput) return;
+    // console.log(activeInput)
+    // console.log(key)
     updateInputValue(activeInput, key)
-    manejarFocus(getCelFromKey(activeInput))
+    
+    // else {
+      manejarFocus(getCelFromKey(activeInput))
+    // }
+
+    if (key == "⌫") {
+      manejarFocusSupri(getCelFromKey(activeInput))
+    } 
   };
 
   return (
     <>
       <div className='grid'>
         <ErrorBoundary>
-          <TotalLineasPalabras inputs={inputs} onFocus={manejarFocus} onChange={updateInputValue}/>
-          <Teclado focusedInput={focusedInput} onKeyPress={handleKeyPress}/>
+          <TotalLineasPalabras inputs={inputs} onFocus={manejarFocus} onChange={updateInputValue} getLineaActual={getRowActual} setLineaActual={setRowActual} inputRefsArr={inputRefs}/>
         </ErrorBoundary>
       </div>
+          <Teclado focusedInput={focusedInput} onKeyPress={handleKeyPress}/>
+
     </>
   )
 }

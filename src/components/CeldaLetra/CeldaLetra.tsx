@@ -2,8 +2,10 @@ import { FC, ReactElement, useEffect, useRef } from 'react'
 import './CeldaLetra.css';
 import { CeldaLetraProps } from '../../utils/CeldaLetraProps';
 
-export const CeldaLetra:FC<CeldaLetraProps> = ({ref, name, value, index, onChange, onBackspace, onFocus}):ReactElement => {
+export const CeldaLetra:FC<CeldaLetraProps> = ({ref, name, value, index, onChange, onBackspace, onFocus, onEnter}):ReactElement => {
     const inputRef = useRef<HTMLInputElement | null>(null);
+    
+    
 
     useEffect(() => {
         ref(inputRef.current);
@@ -35,6 +37,8 @@ export const CeldaLetra:FC<CeldaLetraProps> = ({ref, name, value, index, onChang
     function deffLetter(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Backspace" && !inputRef.current?.value) { 
             onBackspace(index);
+        }else if (e.key === "Enter") { 
+            onEnter();
         }
     }
 
