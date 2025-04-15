@@ -22,34 +22,53 @@ export const LineaCeldaPalabra:FC<LineaCeldaPalabraProps> = ({inputs, onFocus, o
         
     };
 
-    const pressEnter = (): void => {
-        const listClases: string[] = ["verde", "amarillo", "gris"]
-        const palabra:string = "PERRO";
-        const palabraDivida:string[] = palabra.split("");
-        let palabraInputs = "";
-
-        Object.entries(inputs).map(([, value], i) => {
-            palabraInputs += value;
-            if (value === palabraDivida[i]) {
-                inputRefs.current[i]?.classList.add(listClases[0])
-            } else if (palabraDivida.includes(value)) {
-                inputRefs.current[i]?.classList.add(listClases[1])
-            } else {
-                inputRefs.current[i]?.classList.add(listClases[2])
-            }
-
-            if (inputRefs.current[i]) {
-                inputRefs.current[i]!.disabled = true;
-                inputRefs.current[i]!.classList.add("cellDisabled")
-            }
+    function veriLongPalabra(): string {
+        let palabraInputs: string = "";
+        Object.entries(inputs).map(([, value]) => {
+            if (value != "") palabraInputs += value;
         })
 
-        setLineaActual(linea + 1)
+        return palabraInputs
+    }
 
-        if (compararPalabra(palabra, palabraInputs)) {
-            alert("Ganaste! NO VA EL PUTO WIFIII :(")
+    const pressEnter = (): void => {
+        const listClases: string[] = ["verde", "amarillo", "gris"]
+
+        const palabra: string | null = (() => {
+            const raw = localStorage.getItem("palabra");
+            return raw ? raw.toUpperCase() : null;
+        })();   
+        if (palabra == null) return 
+
+        const palabraDivida:string[] = palabra.split("");
+        let palabraInputs = "";
+        if (veriLongPalabra().length == palabra.length) {
+            Object.entries(inputs).map(([, value], i) => {
+                palabraInputs += value;
+                if (value === palabraDivida[i]) {
+                    inputRefs.current[i]?.classList.add(listClases[0])
+                } else if (palabraDivida.includes(value)) {
+                    inputRefs.current[i]?.classList.add(listClases[1])
+                } else {
+                    inputRefs.current[i]?.classList.add(listClases[2])
+                }
+
+                if (inputRefs.current[i]) {
+                    inputRefs.current[i]!.disabled = true;
+                    inputRefs.current[i]!.classList.add("cellDisabled")
+                }
+            })
+        
+            setLineaActual(linea + 1)
+
+            if (compararPalabra(palabra, palabraInputs)) {
+                console.log("Ganaste :)")
+            }
+            else {
+                console.log("Perdiste :(")
+            }
         } else {
-            alert("Perdiste! NO VA EL PUTO WIFIII :(")
+            console.log("weon, ponme minimo la palabra")
         }
     };
 
