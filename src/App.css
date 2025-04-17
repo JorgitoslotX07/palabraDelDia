@@ -1,7 +1,30 @@
 .grid {
   justify-content: center;
   display: grid;
-  grid-template-columns: repeat(5, 60px);
   grid-gap: 8px;
   margin-bottom: 2rem;
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 60px);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 60px);
+}
+
+.grid-5 {
+  grid-template-columns: repeat(5, 60px);
+}
+
+.grid-6 {
+  grid-template-columns: repeat(6, 60px);
+}
+
+.grid-7 {
+  grid-template-columns: repeat(7, 60px);
+}
+
+.grid-8 {
+  grid-template-columns: repeat(8, 60px);
 }

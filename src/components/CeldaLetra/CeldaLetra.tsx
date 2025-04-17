@@ -43,7 +43,7 @@ export const CeldaLetra:FC<CeldaLetraProps> = ({ref, name, value, index, onChang
     }
 
     function manejarFocus() {
-        console.log(index)
+        // console.log(index)
         onFocus(index)
     }
 

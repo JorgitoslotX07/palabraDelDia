@@ -4,7 +4,7 @@ import { LineaCeldaPalabra } from '../LineaCeldaPalabra/LineaCeldaPalabra';
 
 export const TotalLineasPalabras:FC<TotalLineasPalabrasProps> = ({inputs, onFocus, onChange, getLineaActual, setLineaActual, inputRefsArr}):ReactElement => {
   localStorage.setItem("LineaActual", "0")
-  console.log(inputs, "inputs")
+  // console.log(inputs)
   return (
     <>
         {

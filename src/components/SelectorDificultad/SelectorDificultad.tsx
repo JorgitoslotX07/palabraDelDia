@@ -11,7 +11,7 @@ export const SelectorDificultad:FC<SelectorDificultadProps> = ({dif, setDif}):Re
 
     return (
         <>
-             <select
+            <select
                 value={dif}
                 onChange={(e) => onChange(Number(e.target.value))}
                 className="border p-2 rounded"

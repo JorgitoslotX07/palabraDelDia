@@ -20,10 +20,11 @@ export const App:FC = ():ReactElement => {
   const [inputs, setInputs] = useState<InputsState[]>(initialInputs);
   const [focusedInput, setFocusedInput] = useState<number | null>(null);
   const [activeInput, setActiveInput] = useState<string | null>("input0/0");
-  if (!localStorage.getItem("palabra"))  {
+  if (!localStorage.getItem("palabra") || localStorage.getItem("palabra")?.split("").length != numCeldas)  {
     localStorage.setItem("palabra", obtenerPalabraAleatoria(numCeldas))
   }
 
+  const inputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>[] = [];
   
 
   creacionInputs();
@@ -40,10 +41,25 @@ export const App:FC = ():ReactElement => {
       )
     }
 
-    console.log(inputs[0])
+    // console.log(inputs[0])
     if (inputs.length != initialInputs.length || Object.keys(inputs[0]).length != Object.keys(initialInputs[0]).length) {
       setInputs(initialInputs)
       localStorage.setItem("palabra", obtenerPalabraAleatoria(numCeldas))
+      console.log("🥔")
+      setRowActual(0);
+      inputRefs.forEach((grupoRef, grupoIndex) => {
+        grupoRef.current.forEach((input) => {
+          if (input) {
+            if (grupoIndex != 0) {
+              input.disabled = true;
+            } else {
+              input.disabled = false;
+            }
+            input.className = "cell";
+          }
+        });
+      });
+      console.log(inputRefs)
     } 
 
   }
@@ -64,7 +80,6 @@ export const App:FC = ():ReactElement => {
     return rowActual;
   }
 
-  const inputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>[] = [];
 
   const manejarFocus = (index: number) => {
     setFocusedInput(index);
@@ -107,11 +122,12 @@ export const App:FC = ():ReactElement => {
     } 
   };
 
+
   return (
     <>
       <SelectorDificultad dif={dificultad} setDif={actualizarInpust}/>
       <SelectorTamanoPalabra numCel={numCeldas} setNumCel={actualizarInpustCel} />
-      <div className='grid'>
+      <div className={`grid grid-${numCeldas}`}>
           <TotalLineasPalabras inputs={inputs} onFocus={manejarFocus} onChange={updateInputValue} getLineaActual={getRowActual} setLineaActual={setRowActual} inputRefsArr={inputRefs}/>
       </div>
       <Teclado focusedInput={focusedInput} onKeyPress={handleKeyPress}/>

@@ -42,6 +42,8 @@ export const LineaCeldaPalabra:FC<LineaCeldaPalabraProps> = ({inputs, onFocus, o
 
         const palabraDivida:string[] = palabra.split("");
         let palabraInputs = "";
+
+        console.log(palabra, veriLongPalabra())
         if (veriLongPalabra().length == palabra.length) {
             Object.entries(inputs).map(([, value], i) => {
                 palabraInputs += value;
@@ -85,7 +87,9 @@ export const LineaCeldaPalabra:FC<LineaCeldaPalabraProps> = ({inputs, onFocus, o
 
     function anadirInputArr() {
         inputRefsArr.push(inputRefs)
+        console.log(inputRefsArr)
     }
+    anadirInputArr()
 
     return (
         <>
